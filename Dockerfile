@@ -19,13 +19,14 @@ RUN echo "deb http://ftp.osuosl.org/pub/mariadb/repo/$MARIADB_MAJOR/ubuntu trust
 # the "/var/lib/mysql" stuff here is because the mysql-server postinst doesn't have an explicit way to disable the mysql_install_db codepath besides having a database already "configured" (ie, stuff in /var/lib/mysql/mysql)
 # also, we set debconf keys to make APT a little quieter
 RUN { \
-		echo mariadb-server-$MARIADB_MAJOR mysql-server/root_password password 'unused'; \
-		echo mariadb-server-$MARIADB_MAJOR mysql-server/root_password_again password 'unused'; \
+		echo mariadb-server-$MARIADB_MAJOR mysql-server/root_password password 'secret'; \
+		echo mariadb-server-$MARIADB_MAJOR mysql-server/root_password_again password 'secret'; \
 	} | debconf-set-selections \
 	&& apt-get update \
 	&& apt-get install -y \
 		mariadb-server=$MARIADB_VERSION \
-	&& rm -rf /var/lib/apt/lists/*
+	&& rm -rf /var/lib/apt/lists/* \
+	&& chown -R mysql:mysql /var/lib/mysql
 	
 COPY my.cnf /etc/mysql/my.cnf
 
