@@ -30,7 +30,7 @@ RUN { \
 	
 COPY my.cnf /etc/mysql/my.cnf
 
-VOLUME /var/lib/mysql
+#VOLUME /var/lib/mysql
 
 EXPOSE 3306
 CMD ["mysqld"]
