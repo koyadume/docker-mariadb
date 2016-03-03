@@ -6,7 +6,7 @@ RUN groupadd -r mysql && useradd -r -g mysql mysql
 RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys 199369E5404BD5FC7D2FE43BCBCB082A1BB943DB
 
 ENV MARIADB_MAJOR 10.0
-ENV MARIADB_VERSION 10.0.22+maria-1~trusty
+ENV MARIADB_VERSION 10.0.24+maria-1~trusty
 
 RUN echo "deb http://ftp.osuosl.org/pub/mariadb/repo/$MARIADB_MAJOR/ubuntu trusty main" > /etc/apt/sources.list.d/mariadb.list \
 	&& { \
@@ -29,8 +29,6 @@ RUN { \
 	&& chown -R mysql:mysql /var/lib/mysql
 	
 COPY my.cnf /etc/mysql/my.cnf
-
-#VOLUME /var/lib/mysql
 
 EXPOSE 3306
 CMD ["mysqld"]
